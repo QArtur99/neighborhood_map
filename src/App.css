@@ -106,8 +106,17 @@
 }
 
 .locationsList li {
-    color: aliceblue;
+    cursor: pointer;
     font-size: 0.9em;
     padding: 5px 10px;
+    text-align: left;
+}
+
+.location {
+    margin: 0;
+    padding: 0;
+    background-color: #050505;
+    border: none;
+    color: aliceblue;
     text-align: left;
 }

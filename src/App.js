@@ -9,6 +9,7 @@ import {Link, Route} from 'react-router-dom'
 class App extends Component {
 
     state = {
+        previousActive: '',
         drawerIsActive: false,
         isMarkerShown: true,
         markerList: [],
@@ -54,6 +55,13 @@ class App extends Component {
                     break;
                 }
             }
+            for (let i = 0; tempArray.length > i; i++) {
+                if (tempArray[i].id === this.state.previousActive) {
+                    tempArray[i].isMarkerShown = false;
+                    break;
+                }
+            }
+            this.setState({previousActive: key});
             this.setState({markerList: tempArray});
             this.setState({isMarkerShown: !this.state.isMarkerShown});
         }
@@ -87,7 +95,7 @@ class App extends Component {
                     <div className="routeWrapper">
                         <div className={this.state.drawerIsActive ? "drawerIsOn" : "drawerIsOff"}>
                             <div className="drawer">
-                                <div className="drawerWrapper">
+                                <div className="drawerWrapper" role="tabpanel">
                                     <div className="inputWrapper">
                                         <input className='search-location'
                                                type='text'
@@ -95,13 +103,13 @@ class App extends Component {
                                                value={this.state.query}
                                                onChange={(event) => this.updateQuery(event.target.value)}/>
                                     </div>
-                                    <ol className="locationsList">
+                                    <ol className="locationsList" role="tablist">
                                         {this.filterBook(this.state.query).map((marker) => (
-                                            <li key={marker.id}>
-                                                <div className="location"
+                                            <li key={marker.id} role="tab">
+                                                <button className="location" tabIndex ="0"
                                                      onClick={() => this.handleMarkerClick(marker.id)}>
                                                     {marker.name}
-                                                </div>
+                                                </button>
                                             </li>
                                         ))}
                                     </ol>

@@ -1,4 +1,3 @@
-
 function getArgs() {
     let today = new Date();
     let timestamp = today.getFullYear().toString() + ("0" + (today.getMonth() + 1)).slice(-2) + ("0" + today.getDate()).slice(-2)
@@ -13,18 +12,26 @@ function getArgs() {
 function getUri(args) {
     let postData = "";
     Array.from(args.keys()).map(function (key) {
-            if (postData.length > 0) {
-                postData += "&";
-            }
-            postData += key + "=" + args.get(key);
-        });
+        if (postData.length > 0) {
+            postData += "&";
+        }
+        postData += key + "=" + args.get(key);
+    });
     return postData;
 }
 
 const api = "https://api.foursquare.com/v2/venues/search?";
 
-export const getAll = async() =>
-    await fetch(getArgs())
-        .then(res => res.json())
-        .then(data => data.response.venues)
-        .catch(error => console.log(error.message));
+export async function getAll() {
+    let venues = [];
+    try {
+        venues = await fetch(getArgs())
+            .then(res => res.json())
+            .then(data => data.response.venues);
+    }
+    catch (err) {
+        console.log('fetch failed', err);
+    }
+    console.log(typeof venues);
+    return typeof venues === "object" ? venues : [];
+}
