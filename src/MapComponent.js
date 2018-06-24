@@ -22,13 +22,19 @@ const MapComponent = compose(
     withGoogleMap
 )((props) =>
     <GoogleMap
-        defaultZoom={10}
-        defaultCenter={{lat: 52.406059, lng: 16.928177}}
+        defaultZoom={18}
+        defaultCenter={{lat: 51.500699, lng: -0.126087}}
     >
         {props.markerList.map((marker) => (
-            <Marker key={marker.id} position={{lat: marker.lat, lng: marker.lng}} onClick={() => props.onMarkerClick(marker.id)}>
-                {!marker.isMarkerShown && <InfoWindow key={marker.id} onCloseClick={() => props.onMarkerClick(marker.id)}>
-                    <i className="fa fa-arrow-left">{marker.name}</i>
+            <Marker key={marker.id}
+                    icon={marker.isMarkerShown ? 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' : 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'}
+                    position={{lat: marker.lat, lng: marker.lng}}
+                    onClick={() => props.onMarkerClick(marker.id)}>
+                {marker.isMarkerShown && <InfoWindow key={marker.id} onCloseClick={() => props.onMarkerClick(marker.id)}>
+                    <div>
+                        <p>{marker.name}</p>
+                        <p>{marker.formattedAddress}</p>
+                    </div>
                 </InfoWindow>}
             </Marker>
         ))}
